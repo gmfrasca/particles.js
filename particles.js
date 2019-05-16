@@ -136,6 +136,13 @@ var pJS = function(tag_id, params){
 
   var pJS = this.pJS;
 
+  /* Party Parrot Colors */
+  var pp_colors = ['#FF6B6B', '#FFD68C', '#8CFF8C', '#8CFFFF', '#8CB5FF',
+		   '#D68CFF', '#FF8CFF', '#FF6BF7', '#FF6BB5', '#FF6B6B'];
+  var pp_pos = 5;
+  var pp_frame = 0;
+  var pp_frames_per_change = 4;
+
   /* params settings */
   if(params){
     Object.deepExtend(pJS, params);
@@ -687,7 +694,7 @@ var pJS = function(tag_id, params){
       if(opacity_line > 0){        
         
         /* style */
-        var color_line = pJS.particles.line_linked.color_rgb_line;
+	var color_line = hexToRgb(pp_colors[pp_pos])
         pJS.canvas.ctx.strokeStyle = 'rgba('+color_line.r+','+color_line.g+','+color_line.b+','+opacity_line+')';
         pJS.canvas.ctx.lineWidth = pJS.particles.line_linked.width;
         //pJS.canvas.ctx.lineCap = 'round'; /* performance issue */
@@ -1310,6 +1317,11 @@ var pJS = function(tag_id, params){
 
 
   pJS.fn.vendors.draw = function(){
+    pp_frame = pp_frame + 1;
+    if (pp_frame == pp_frames_per_change){
+      pp_frame = 0;
+      pp_pos = (pp_pos +1) % pp_colors.length;
+    }
 
     if(pJS.particles.shape.type == 'image'){
 
